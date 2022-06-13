@@ -1,36 +1,7 @@
-/* reset */
-* {
-  box-sizing: border-box;
-}
-
-button {
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  text-align: inherit;
-  vertical-align: middle;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  outline: 0;
-}
-/* reset end */
-
-:root {
-  --c-primary: #7e72f2;
-  --c-basic: #2c2c2c;
-}
-
-body {
-  font-family: 'Montserrat', 'Roboto', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16px;
-}
 
 .card {
-  width: 317px;
+  display: flex;
+  flex-direction: column;
   color: var(--c-basic);
   background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.133);
@@ -52,6 +23,7 @@ body {
 }
 
 .card__content {
+  flex-grow: 1;
   padding: 12px 12px 22px;
 }
 

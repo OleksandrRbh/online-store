@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Online Store</title>
+  <link rel="stylesheet" href="./main.css">
+  <link rel="stylesheet" href="./components/cards-list/01-css-task/style.css">
+  <link rel="stylesheet" href="./components/card/01-css-task/style.css">
+  <link rel="stylesheet" href="./components/pagination/01-css-task/style.css">
+
+</head>
+<body>
+  <div id="root" class="wrapper"></div>
+
+  <script type="module">
+    import { products } from "./fixtures/products.js";
+    import OnlineStorePage from "./index.js";
+
+    const page = new OnlineStorePage(products)
+    const rootElement = document.querySelector('#root')
+
+    rootElement.append(page.element)
+  </script>
+</body>
+</html>

@@ -21,18 +21,14 @@
 
     const pagination = new Pagination({
       totalPages: 12,
-      currentPage: 5
+      activePageIndex: 3
     });
 
     const rootElement = document.querySelector('#root')
 
     rootElement.append(pagination.element);
 
-    pagination.element.addEventListener('page-changed', event => {
-      console.error('event', event);
-    });
-
-    window.pagination = pagination;
+    pagination.setPage(10)
   </script>
 </main>
 </body>

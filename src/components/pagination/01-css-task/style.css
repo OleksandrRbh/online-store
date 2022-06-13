@@ -1,20 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-:root {
-  --c-primary: #7e72f2;
-  --c-basic: #2c2c2c;
-  --c-light-grey: #ededed;
-}
-
-body {
-  font-family: 'Montserrat', 'Roboto', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16px;
-}
-
 .pagination {
   display: flex;
   gap: 15px;

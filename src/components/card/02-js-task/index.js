@@ -36,11 +36,11 @@ export default class Card {
   render () {
     const wrapper = document.createElement('div')
     wrapper.innerHTML = this.getTemplate()
-    this.componentElement = wrapper
+    this.element = wrapper.firstElementChild
   }
 
   update (data = {}) {
     this.state = data
-    this.componentElement.innerHTML = this.getTemplate()
+    this.element.innerHTML = this.getTemplate()
   }
 }
