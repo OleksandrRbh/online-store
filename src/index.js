@@ -3,13 +3,15 @@ import Pagination from './components/pagination/02-js-task/index.js'
 
 export default class OnlineStorePage {
   constructor (products = []) {
-    this.pageSize = 4
+    this.pageSize = 3
     this.products = products
     this.components = {}
 
     this.initComponents()
     this.render()
     this.renderComponents()
+
+    this.initEventListeners()
     console.log('this', this)
   }
 
@@ -17,7 +19,7 @@ export default class OnlineStorePage {
     return `
       <div>
         <div data-element="cardsList">
-          <!-- Card component -->
+          <!-- Cards List component -->
         </div>
         <div data-element="pagination">
           <!-- Pagination component -->
@@ -29,7 +31,7 @@ export default class OnlineStorePage {
   initComponents () {
     const totalPages = Math.ceil(this.products.length / this.pageSize)
 
-    const cardsList = new CardsList(this.products)
+    const cardsList = new CardsList(this.products.slice(0, this.pageSize))
     const pagination = new Pagination({
       activePageIndex: 0,
       totalPages
@@ -53,6 +55,18 @@ export default class OnlineStorePage {
 
     cardsContainer.append(this.components.cardsList.element)
     paginationContainer.append(this.components.pagination.element)
+  }
+
+  initEventListeners () {
+    this.components.pagination.element.addEventListener('page-changed', event => {
+      const pageIndex = Number(event.detail)
+
+      const start = this.pageSize * pageIndex
+      const end = start + this.pageSize
+      const slicedProducts = this.products.slice(start, end)
+
+      this.components.cardsList.update(slicedProducts)
+    })
   }
 }
 

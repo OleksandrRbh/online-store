@@ -48,6 +48,8 @@ export default class Pagination {
     if (pageIndex === this.activePageIndex) return;
     if (pageIndex > this.totalPages - 1 || pageIndex < 0) return;
 
+    this.dispatchPageChangeEvent(pageIndex)
+
     const activePage = this.element.querySelector('.pages__item.active')
 
     if (activePage) {
@@ -101,5 +103,13 @@ export default class Pagination {
 
       this.setPage(pageItem.dataset.pageIndex)
     })
+  }
+
+  dispatchPageChangeEvent (pageIndex) {
+    const customEvent = new CustomEvent('page-changed', {
+      detail: pageIndex
+    })
+
+    this.element.dispatchEvent(customEvent)
   }
 }

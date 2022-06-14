@@ -31,6 +31,13 @@ export default class CardsList {
     })
 
     const body = this.element.querySelector('[data-element="body"]')
+
+    body.innerHTML = ''
     body.append(...cards)
+  }
+
+  update (data = []) {
+    this.data = data
+    this.renderCards()
   }
 }
