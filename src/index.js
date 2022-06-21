@@ -1,23 +1,36 @@
 import CardsList from "./components/cards-list/02-js-task/index.js";
 import Pagination from './components/pagination/02-js-task/index.js'
 
+const BACKEND_URL = 'https://online-store.bootcamp.place/api/'
+
 export default class OnlineStorePage {
-  constructor (products = []) {
-    this.pageSize = 3
-    this.products = products
+  constructor () {
+    this.pageSize = 9
     this.components = {}
+    this.products = []
+
+    this.url = new URL('products', BACKEND_URL)
+    this.url.searchParams.set('_limit', this.pageSize)
 
     this.initComponents()
     this.render()
     this.renderComponents()
-
     this.initEventListeners()
+
+    this.update(1)
     console.log('this', this)
+  }
+
+  async loadData (pageNumber) {
+    this.url.searchParams.set('_page', pageNumber)
+    const response = await fetch(this.url);
+    const products = await response.json();
+    return products;
   }
 
   getTemplate () {
     return `
-      <div>
+      <div class="page">
         <div data-element="cardsList">
           <!-- Cards List component -->
         </div>
@@ -29,9 +42,10 @@ export default class OnlineStorePage {
   }
 
   initComponents () {
-    const totalPages = Math.ceil(this.products.length / this.pageSize)
+    const totalElements = 100
+    const totalPages = Math.ceil(totalElements / this.pageSize)
 
-    const cardsList = new CardsList(this.products.slice(0, this.pageSize))
+    const cardsList = new CardsList(this.products)
     const pagination = new Pagination({
       activePageIndex: 0,
       totalPages
@@ -61,12 +75,14 @@ export default class OnlineStorePage {
     this.components.pagination.element.addEventListener('page-changed', event => {
       const pageIndex = Number(event.detail)
 
-      const start = this.pageSize * pageIndex
-      const end = start + this.pageSize
-      const slicedProducts = this.products.slice(start, end)
-
-      this.components.cardsList.update(slicedProducts)
+      this.update(pageIndex + 1)
     })
+  }
+
+  async update (pageNumber) {
+    const data = await this.loadData(pageNumber)
+
+    this.components.cardsList.update(data)
   }
 }
 
