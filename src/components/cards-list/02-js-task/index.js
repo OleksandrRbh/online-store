@@ -3,6 +3,7 @@ import Card from "../../card/02-js-task/index.js";
 export default class CardsList {
   constructor (data = []) {
     this.data = data
+
     this.render()
     this.renderCards()
   }

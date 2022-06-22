@@ -1,5 +1,6 @@
 import CardsList from "./components/cards-list/02-js-task/index.js";
-import Pagination from './components/pagination/02-js-task/index.js'
+import Pagination from './components/pagination/02-js-task/index.js';
+import SearchBox from './components/search-box/02-js-task/index.js';
 
 const BACKEND_URL = 'https://online-store.bootcamp.place/api/'
 
@@ -31,6 +32,9 @@ export default class OnlineStorePage {
   getTemplate () {
     return `
       <div class="page">
+        <div data-element="searchBox">
+          <!-- Search Box component -->
+        </div>
         <div data-element="cardsList">
           <!-- Cards List component -->
         </div>
@@ -50,9 +54,11 @@ export default class OnlineStorePage {
       activePageIndex: 0,
       totalPages
     })
+    const searchBox = new SearchBox()
 
     this.components.cardsList = cardsList
     this.components.pagination = pagination
+    this.components.searchBox = searchBox
   }
 
   render () {
@@ -66,9 +72,11 @@ export default class OnlineStorePage {
   renderComponents () {
     const cardsContainer = this.element.querySelector('[data-element="cardsList"]')
     const paginationContainer = this.element.querySelector('[data-element="pagination"]')
+    const searchBoxContainer = this.element.querySelector('[data-element="searchBox"]')
 
     cardsContainer.append(this.components.cardsList.element)
     paginationContainer.append(this.components.pagination.element)
+    searchBoxContainer.append(this.components.searchBox.element)
   }
 
   initEventListeners () {
@@ -76,6 +84,12 @@ export default class OnlineStorePage {
       const pageIndex = Number(event.detail)
 
       this.update(pageIndex + 1)
+    })
+
+    this.components.searchBox.element.addEventListener('search-changed', event => {
+      const searchQuery = event.detail
+
+      console.log('searchQuery', searchQuery)
     })
   }
 

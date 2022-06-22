@@ -2,6 +2,7 @@ export default class Pagination {
   constructor({ totalPages = 0, activePageIndex = 0 } = {}) {
     this.totalPages = totalPages
     this.activePageIndex = activePageIndex
+
     this.render()
     this.addListeners();
   }
