@@ -27,3 +27,15 @@ body {
   font-weight: 400;
   line-height: 16px;
 }
+
+.main-container {
+  grid-gap: 20px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}

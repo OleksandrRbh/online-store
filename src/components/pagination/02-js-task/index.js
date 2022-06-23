@@ -113,4 +113,12 @@ export default class Pagination {
 
     this.element.dispatchEvent(customEvent)
   }
+
+  update (totalPages = 0) {
+    this.totalPages = totalPages
+    this.activePageIndex = 0
+
+    const pagination = this.element.querySelector('[data-element="pagination"]')
+    pagination.innerHTML = this.getPagesTemplate()
+  }
 }

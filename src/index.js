@@ -6,48 +6,72 @@ const BACKEND_URL = 'https://online-store.bootcamp.place/api/'
 
 export default class OnlineStorePage {
   constructor () {
-    this.pageSize = 9
     this.components = {}
     this.products = []
+    this.totalElements = 100
+    this.filters = {
+      _page: 1,
+      _limit: 9,
+      q: ''
+    }
 
     this.url = new URL('products', BACKEND_URL)
-    this.url.searchParams.set('_limit', this.pageSize)
 
     this.initComponents()
     this.render()
     this.renderComponents()
     this.initEventListeners()
 
-    this.update(1)
+    this.update('_page', 1)
     console.log('this', this)
   }
 
-  async loadData (pageNumber) {
-    this.url.searchParams.set('_page', pageNumber)
+  async loadData () {
+    for (const key in this.filters) {
+      if (this.filters[key]) {
+        this.url.searchParams.set(key, this.filters[key])
+      } else {
+        this.url.searchParams.delete(key, this.filters[key])
+      }
+    }
+
     const response = await fetch(this.url);
+
+    this.totalElements = Number(response.headers.get('X-Total-Count'))
+    const totalPages = Math.ceil(this.totalElements / this.filters._limit)
+
     const products = await response.json();
-    return products;
+    return { products, totalPages };
   }
 
   getTemplate () {
     return `
       <div class="page">
-        <div data-element="searchBox">
-          <!-- Search Box component -->
-        </div>
-        <div data-element="cardsList">
-          <!-- Cards List component -->
-        </div>
-        <div data-element="pagination">
-          <!-- Pagination component -->
-        </div>
+        <header>
+
+        </header>
+        <main class="main-container">
+          <aside class="sidebar-container" data-element="sideBar">
+            <!-- Side Bar component -->
+          </aside>
+          <section>
+            <div data-element="searchBox">
+              <!-- Search Box component -->
+            </div>
+            <div data-element="cardsList">
+              <!-- Cards List component -->
+            </div>
+            <div class="pagination-container" data-element="pagination">
+              <!-- Pagination component -->
+            </div>
+          </section>
+        </main>
       </div>
     `
   }
 
   initComponents () {
-    const totalElements = 100
-    const totalPages = Math.ceil(totalElements / this.pageSize)
+    const totalPages = Math.ceil(this.totalElements / this.filters._limit)
 
     const cardsList = new CardsList(this.products)
     const pagination = new Pagination({
@@ -83,20 +107,31 @@ export default class OnlineStorePage {
     this.components.pagination.element.addEventListener('page-changed', event => {
       const pageIndex = Number(event.detail)
 
-      this.update(pageIndex + 1)
+      this.update('_page', pageIndex + 1)
     })
 
     this.components.searchBox.element.addEventListener('search-changed', event => {
       const searchQuery = event.detail
 
-      console.log('searchQuery', searchQuery)
+      this.update('q', searchQuery)
     })
   }
 
-  async update (pageNumber) {
-    const data = await this.loadData(pageNumber)
+  async update (filterName, filtervalue) {
+    this.filters[filterName] = filtervalue
+    if (filterName === 'q') this.filters._page = 1
 
-    this.components.cardsList.update(data)
+    const { products, totalPages } = await this.loadData()
+
+    if (filterName === '_page') {
+      this.components.cardsList.update(products)
+    }
+    if (filterName === 'q') {
+      this.components.pagination.update(totalPages)
+      this.components.cardsList.update(products)
+    }
+
+    console.log(this.filters);
   }
 }
 
