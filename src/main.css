@@ -34,7 +34,7 @@ body {
   grid-template-columns: 280px 1fr;
 }
 
-.pagination-container {
+.os-pagination-container {
   display: flex;
   justify-content: center;
   margin-bottom: 32px;

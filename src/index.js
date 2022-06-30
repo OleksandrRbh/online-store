@@ -1,6 +1,7 @@
 import CardsList from "./components/cards-list/02-js-task/index.js";
 import Pagination from './components/pagination/02-js-task/index.js';
 import SearchBox from './components/search-box/02-js-task/index.js';
+import SideBar from './components/side-bar/02-js-task/index.js';
 
 const BACKEND_URL = 'https://online-store.bootcamp.place/api/'
 
@@ -51,7 +52,7 @@ export default class OnlineStorePage {
 
         </header>
         <main class="main-container">
-          <aside class="sidebar-container" data-element="sideBar">
+          <aside class="os-sidebar-container" data-element="sideBar">
             <!-- Side Bar component -->
           </aside>
           <section>
@@ -61,7 +62,7 @@ export default class OnlineStorePage {
             <div data-element="cardsList">
               <!-- Cards List component -->
             </div>
-            <div class="pagination-container" data-element="pagination">
+            <div class="os-pagination-container" data-element="pagination">
               <!-- Pagination component -->
             </div>
           </section>
@@ -79,10 +80,12 @@ export default class OnlineStorePage {
       totalPages
     })
     const searchBox = new SearchBox()
+    const sideBar = new SideBar()
 
     this.components.cardsList = cardsList
     this.components.pagination = pagination
     this.components.searchBox = searchBox
+    this.components.sideBar = sideBar
   }
 
   render () {
@@ -97,10 +100,12 @@ export default class OnlineStorePage {
     const cardsContainer = this.element.querySelector('[data-element="cardsList"]')
     const paginationContainer = this.element.querySelector('[data-element="pagination"]')
     const searchBoxContainer = this.element.querySelector('[data-element="searchBox"]')
+    const sideBarContainer = this.element.querySelector('[data-element="sideBar"]')
 
     cardsContainer.append(this.components.cardsList.element)
     paginationContainer.append(this.components.pagination.element)
     searchBoxContainer.append(this.components.searchBox.element)
+    sideBarContainer.append(this.components.sideBar.element)
   }
 
   initEventListeners () {
