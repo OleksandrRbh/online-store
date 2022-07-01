@@ -12,10 +12,7 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 18px;
-}
-
-.os-filter__list {
-  list-style: none;
+  text-transform: capitalize;
 }
 
 .os-filter__item {

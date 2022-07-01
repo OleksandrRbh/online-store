@@ -4,6 +4,7 @@ const BACKEND_URL = 'https://online-store.bootcamp.place/api/'
 
 export default class SideBar {
   constructor () {
+    this.components = {}
     this.categoriesFilterData = []
     this.brandsFilterData = []
 
@@ -21,6 +22,17 @@ export default class SideBar {
     ])
     this.renderCategoriesFilter()
     this.renderBrandsFilter()
+    this.initEventListeners()
+  }
+
+  initEventListeners () {
+    this.components.brandsFilter.element.addEventListener('filter-changed', event => {
+      console.log('event.detail', event.detail)
+    })
+
+    this.components.categoryFilter.element.addEventListener('filter-changed', event => {
+      console.log('event.detail', event.detail)
+    })
   }
 
   async fetchCategoriesData () {
@@ -36,18 +48,18 @@ export default class SideBar {
   async renderCategoriesFilter () {
     console.log('this.categoriesFilterData', this.categoriesFilterData)
     if (this.categoriesFilterData && this.categoriesFilterData.length) {
-      const filter = new FiltersList({ name: 'Category', data: this.categoriesFilterData })
+      this.components.categoryFilter = new FiltersList({ name: 'category', data: this.categoriesFilterData })
       const container = this.element.querySelector('[data-element="filters"]')
-      container.appendChild(filter.element)
+      container.appendChild(this.components.categoryFilter.element)
     }
   }
 
   async renderBrandsFilter () {
     console.log('this.brandsFilterData', this.brandsFilterData)
     if (this.brandsFilterData && this.brandsFilterData.length) {
-      const filter = new FiltersList({ name: 'Brand', data: this.brandsFilterData })
+      this.components.brandsFilter = new FiltersList({ name: 'brand', data: this.brandsFilterData })
       const container = this.element.querySelector('[data-element="filters"]')
-      container.appendChild(filter.element)
+      container.appendChild(this.components.brandsFilter.element)
     }
   }
 

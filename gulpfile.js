@@ -21,7 +21,7 @@ gulp.task('uglify-css', done => {
 
 gulp.task('copy-html', done => {
   gulp.src('src/**/02-js-task/index.html')
-    .pipe(replace('./solution/index.js', './index.js'))
+    .pipe(replace('./solution/toSnakeCase.js', './toSnakeCase.js'))
     .pipe(rename( path => {
       return {
         dirname: path.dirname.replace('02-js-task', 'example'),
@@ -37,7 +37,7 @@ gulp.task('copy-html', done => {
 });
 
 gulp.task('uglify-js', done => {
-  gulp.src('src/**/02-js-task/solution/index.js')
+  gulp.src('src/**/02-js-task/solution/toSnakeCase.js')
     .pipe(babel({
       presets: [
         ['@babel/preset-env', {
